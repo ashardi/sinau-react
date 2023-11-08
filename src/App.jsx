@@ -2,21 +2,34 @@ import { useState } from 'react';
 
 import componentImg from './assets/components.png';
 import { CORE_CONCEPTS } from "./data";
+import { EXAMPLES } from "./data";
 import Header from './components/Header/Header';
 import CoreConcept from './components/CoreConcept';
 import TabButton from './components/TabButton';
 import Card from './components/Card';
 
 function App() {
-  const [selectedTopic, setSelectedTopic] = useState('Purisu click a btn!');
-
-  let tabContent = 'Click a btn!';
+  const [selectedTopic, setSelectedTopic] = useState();
 
   function handleSelect(selectedBtn) {
     setSelectedTopic(selectedBtn);
-    // tabContent = selectedBtn;
     console.log('selectedTopic: ', selectedTopic);
   }
+
+  let tabContent = <p>Please select a topic.</p>;
+
+  if (selectedTopic) {
+    tabContent = <div id="tab-content">
+      <h3>{EXAMPLES[selectedTopic].title}</h3>
+      <p>{EXAMPLES[selectedTopic].description}</p>
+      <pre>
+              <code>
+                {EXAMPLES[selectedTopic].code}
+              </code>
+            </pre>
+    </div>;
+  }
+
 
   return (
     <div>
@@ -43,7 +56,7 @@ function App() {
             <TabButton onSelect={() => handleSelect('props')}>Props</TabButton>
             <TabButton onSelect={() => handleSelect('state')}>State</TabButton>
           </menu>
-          {selectedTopic}
+          {tabContent}
         </section>
         <section id="experts">
           <h1>Available Experts</h1>
